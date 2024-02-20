@@ -6,6 +6,7 @@ import shutil
 import lithops
 from lithops.storage import Storage
 
+import time
 import numpy as np
 import pdal
 from osgeo import gdal
@@ -13,7 +14,7 @@ from scipy import ndimage
 
 from posixpath import join as posix_join
 
-DATA_BUCKET = 'cb-geospatial-wildfirev1'
+DATA_BUCKET = 'cb-geospatial-wildfire'
 COMPUTE_BACKEND = 'aws_lambda'
 STORAGE_BACKEND = 'aws_s3'
 STORAGE_PREFIX = 'aws_s3://'
@@ -29,17 +30,20 @@ storage = Storage(backend=STORAGE_BACKEND)
 
 bucket_objects = storage.list_keys(bucket=DATA_BUCKET)
 
+st = time.time()
+
+print(f'Uploading laz files...')
 for file_name in os.listdir(LOCAL_INPUT_DIR):
     if file_name not in bucket_objects:
         key = os.path.join(INPUT_DATA_PREFIX, file_name)
         with open(os.path.join(LOCAL_INPUT_DIR, file_name), 'rb') as file:
-            print(f'Uploading {key}...')
             data = file.read()
             storage.put_object(bucket=DATA_BUCKET, key=key, body=data)
-            print('Ok!')
+            
+print(f'Upload completed with exit!!!')
 
 # Calculte DEM, DSM and CHM
-print(storage.list_keys(bucket=DATA_BUCKET))
+#print(storage.list_keys(bucket=DATA_BUCKET))
 
 def calculate_models(obj, storage):
     # Create temporary file paths
@@ -239,6 +243,18 @@ print(os.path.join(STORAGE_PREFIX, DATA_BUCKET, INPUT_DATA_PREFIX))
 
 fs = fexec.map(calculate_models, posix_join(STORAGE_PREFIX, DATA_BUCKET, INPUT_DATA_PREFIX))
 res = fexec.get_result(fs=fs)
+
+elapsed = time.time() - st
+
 for r in res:
     print(r.decode('utf-8').strip())
     print('---')
+
+
+stats = [f.stats for f in fexec.futures]
+gbxms_price = 0.0000000167
+sum_total_time = sum([stat['worker_exec_time'] for stat in stats]) * 1000
+price = gbxms_price * sum_total_time * 4  # Price GB/ms * sum of times in ms * 4 GB
+print(f'Experiment total price is {round(price, 3)} USD')
+print(f'Total time: {elapsed}')
+
