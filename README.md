@@ -1,6 +1,6 @@
 # Cloudbutton Geospatial Use Case: Model Calculation
 
-This notebook contains a model calculation process that consumes laz files.
+This notebook contains a model calculation process that consumes laz files. You can download examples of las files in [here](https://www.icgc.cat/es/Descargas/Elevaciones/Datos-lidar)
 
 ## Requisites
 
@@ -18,7 +18,7 @@ To execute this notebook you need:
 
 3. Setup Lithops to work with [AWS Lambda](https://lithops-cloud.github.io/docs/source/compute_config/aws_lambda.html).
 
-4. Deploy the AWS Lambda Lithops runtime prepared for this workflow following [this instructions](https://github.com/lithops-cloud/lithops/tree/master/runtime/aws_lambda) using the Docker file `'Dockerfile'` in the runtime directory:
+4. Deploy the AWS Lambda Lithops runtime prepared for this workflow following [this instructions](https://github.com/lithops-cloud/lithops/tree/master/runtime/aws_lambda) using the Docker file `'aws_lambda.Dockerfile'` in the runtime directory:
    ```bash
    $ lithops runtime build -f Dockerfile cloudbutton-model-calculation:01
    ```
@@ -29,4 +29,4 @@ To execute this notebook you need:
 
 5. Follow the instructions in the notebook to execute the code.
 
-6. You can download other laz files to create different models.
+6. You can download other laz files to create different models. You just need to put them in the `input-las-tiles` directory. In this repository we give an example file.
