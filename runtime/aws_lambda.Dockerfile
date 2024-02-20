@@ -13,7 +13,7 @@ RUN yum update -y && \
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh && \
     sh Miniconda3-latest-Linux-x86_64.sh -b -p /opt/miniconda
 
-COPY ./runtime/lithops-env-py39.yml /tmp/lithops-conda.yml
+COPY ./lithops-env-py39.yml /tmp/lithops-conda.yml
 
 RUN /opt/miniconda/bin/conda update -n base -c defaults conda &&  \
     /opt/miniconda/bin/conda env create -v --file /tmp/lithops-conda.yml --prefix /opt/conda-env
