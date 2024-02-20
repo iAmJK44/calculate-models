@@ -32,7 +32,7 @@ bucket_objects = storage.list_keys(bucket=DATA_BUCKET)
 
 st = time.time()
 
-print(f'Uploading laz files...')
+print('\nUploading laz files...')
 for file_name in os.listdir(LOCAL_INPUT_DIR):
     if file_name not in bucket_objects:
         key = os.path.join(INPUT_DATA_PREFIX, file_name)
