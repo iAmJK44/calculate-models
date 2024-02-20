@@ -1,6 +1,6 @@
 # Cloudbutton Geospatial Use Case: Model Calculation
 
-This notebook contains a model calculation process that consumes laz files. You can download examples of las files in [here](https://www.icgc.cat/es/Descargas/Elevaciones/Datos-lidar)
+This notebook contains a model calculation process that consumes laz files. You can download examples of las files in [here](https://www.icgc.cat/es/Descargas/Elevaciones/Datos-lidar).
 
 ## Requisites
 
