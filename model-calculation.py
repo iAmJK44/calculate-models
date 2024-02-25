@@ -256,5 +256,5 @@ gbxms_price = 0.0000000167
 sum_total_time = sum([stat['worker_exec_time'] for stat in stats]) * 1000
 price = gbxms_price * sum_total_time * 4  # Price GB/ms * sum of times in ms * 4 GB
 print(f'Experiment total price is {round(price, 3)} USD')
-print(f'Total time: {elapsed}')
+print(f'Total time: {round(elapsed, 3} s')
 
